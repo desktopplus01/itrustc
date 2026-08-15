@@ -1,0 +1,124 @@
+/* Tailwind for the app shell + future modules.
+
+   NOTE: the real iTrustCapital compiled stylesheets (site.css, swiper.css,
+   inline.css) are intentionally imported in main.jsx AFTER this file, NOT
+   here, so the @tailwindcss/vite optimizer never reprocesses them.
+
+   Also excluded from Tailwind's content scan: the replica stylesheets carry
+   the site's Tailwind-v3-era escaped class names (e.g. `sm:[@media(...)]:`)
+   and .freebuff/ holds app state — both confuse the v4 scanner into
+   generating broken CSS. */
+@import "tailwindcss";
+/* The replica markup/components/sections are the site's own SSR output, whose
+   classes are already compiled into src/replica/site.css (Tailwind-v3 style:
+   `transform: translate(...)` with --tw-* vars). If our Tailwind v4 content
+   scan also generates those classes it emits v4-style rules (the separate
+   `translate` property) that DOUBLE-APPLY with the site's, shifting/rotating
+   elements twice (off-center step numbers, misplaced phone mockups, a leaked
+   white divider line). So everything under src/replica/ is excluded from the
+   scan — the site's compiled stylesheet is the single source for those classes.
+   Non-source files (.freebuff app state, dist output) are excluded too. */
+@source not "./replica/**";
+@source not "./components/**";
+@source not "./data/**";
+@source not "../.freebuff/**";
+@source not "../dist/**";
+@source not "../.replica-source.html";
+
+/* The site relies on these custom properties from its own compiled output;
+   keep the baseline font stack identical to the live page. */
+html,
+body {
+  font-family: "Jost", "Jost Fallback", ui-sans-serif, system-ui, sans-serif;
+  background: #000414;
+}
+
+/* Featured-on press logo marquee (the live site populates this row client-
+   side; we ship the logos and scroll them continuously). */
+.featured-marquee {
+  animation: featured-marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+@keyframes featured-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-marquee {
+    animation: none;
+  }
+}
+
+/* Top-bar market ticker (replaces react-fast-marquee). The track holds two
+   identical copies of the price list; animating translateX to -50% loops them
+   seamlessly. Duration is set from JS to match the site's speed (40 px/sec). */
+.market-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.market-ticker-track {
+  display: flex;
+  width: max-content;
+  animation-name: market-ticker-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.market-ticker:hover .market-ticker-track {
+  animation-play-state: paused;
+}
+
+/* the site's `hover:bg-moon-500` variant isn't in its compiled CSS; replicate
+   it here (moon-500 = rgb(52 57 77)) */
+.market-ticker a:hover {
+  background-color: rgb(52 57 77);
+}
+
+@keyframes market-ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .market-ticker-track {
+    animation: none;
+  }
+}
+
+/* Tailwind v4 emits a separate `translate` property for the translate-* /
+   -translate-* utilities. The replica's classes are the site's own, whose
+   compiled CSS uses the v3 style (`transform: translate(var(--tw-...))`), so
+   both end up applying and every translation is DOUBLED — which showed up as
+   off-center step numbers, phone mockups sitting above their step numbers,
+   and the white divider line leaking up into the previous section. The site's
+   transform is the only translation that should apply, so neutralize the v4
+   `translate` property wherever a translate utility is used. */
+[class*="translate"] {
+  translate: none;
+}
+
+/* Replica interactivity helpers */
+.replica-reveal {
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .replica-reveal {
+    transition: none;
+  }
+}
