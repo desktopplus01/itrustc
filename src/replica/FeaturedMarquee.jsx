@@ -7,17 +7,19 @@
  * the identical structure and fills the row with those logos, scrolling them
  * in an infinite marquee (duplicated once for a seamless -50% loop).
  */
+import { assetUrl } from './render.jsx'
+
 const logos = [
-  { name: 'Barrons', src: '/assets/directus/e6b1cb33-d5d9-4973-8c49-ac2af3f74214.svg', w: 149, h: 30 },
-  { name: 'Benzinga', src: '/assets/directus/b58c949a-2fd2-4142-9bd6-c8e0ee8b2da0.svg', w: 180, h: 24 },
-  { name: 'Bloomberg', src: '/assets/directus/b4ff3cde-6e82-496f-908e-ae8c23a05b67.svg', w: 136, h: 30 },
-  { name: 'Business Insider', src: '/assets/directus/1a180787-8425-4279-bc95-e37664b9c173.svg', w: 97, h: 30 },
-  { name: 'Forbes', src: '/assets/directus/8b58ce16-5c07-4096-bf8a-b9283339520e.svg', w: 87, h: 30 },
-  { name: 'Inc Regionals Pacific 2026', src: '/assets/directus/5774266a-26c0-4f52-90f4-fda0beb9aeeb.svg', w: 115, h: 56 },
-  { name: 'Investing.com', src: '/assets/directus/3c9ef519-4127-497a-a3c1-840e8faa1dc0.svg', w: 179, h: 30 },
-  { name: 'Investopedia', src: '/assets/directus/a8d521df-0d58-4371-bf0a-25506c3f5a3a.png', w: 153, h: 30 },
-  { name: 'Coin Desk', src: '/assets/directus/d3a96e30-3bb3-4019-9f29-b96c0a7466ff.svg', w: 159, h: 30 },
-  { name: 'Coin Telegraph', src: '/assets/directus/faf15131-5bbf-4464-bb54-b3878373d502.svg', w: 131, h: 30 },
+  { name: 'Barrons', src: assetUrl('/assets/directus/e6b1cb33-d5d9-4973-8c49-ac2af3f74214.svg'), w: 149, h: 30 },
+  { name: 'Benzinga', src: assetUrl('/assets/directus/b58c949a-2fd2-4142-9bd6-c8e0ee8b2da0.svg'), w: 180, h: 24 },
+  { name: 'Bloomberg', src: assetUrl('/assets/directus/b4ff3cde-6e82-496f-908e-ae8c23a05b67.svg'), w: 136, h: 30 },
+  { name: 'Business Insider', src: assetUrl('/assets/directus/1a180787-8425-4279-bc95-e37664b9c173.svg'), w: 97, h: 30 },
+  { name: 'Forbes', src: assetUrl('/assets/directus/8b58ce16-5c07-4096-bf8a-b9283339520e.svg'), w: 87, h: 30 },
+  { name: 'Inc Regionals Pacific 2026', src: assetUrl('/assets/directus/5774266a-26c0-4f52-90f4-fda0beb9aeeb.svg'), w: 115, h: 56 },
+  { name: 'Investing.com', src: assetUrl('/assets/directus/3c9ef519-4127-497a-a3c1-840e8faa1dc0.svg'), w: 179, h: 30 },
+  { name: 'Investopedia', src: assetUrl('/assets/directus/a8d521df-0d58-4371-bf0a-25506c3f5a3a.png'), w: 153, h: 30 },
+  { name: 'Coin Desk', src: assetUrl('/assets/directus/d3a96e30-3bb3-4019-9f29-b96c0a7466ff.svg'), w: 159, h: 30 },
+  { name: 'Coin Telegraph', src: assetUrl('/assets/directus/faf15131-5bbf-4464-bb54-b3878373d502.svg'), w: 131, h: 30 },
 ]
 
 export default function FeaturedMarquee() {

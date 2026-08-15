@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { assetUrl } from './render.jsx'
 
 const menus = {
   Markets: [
@@ -106,7 +107,7 @@ export default function SiteNav() {
             >
               <img
                 className="block w-[180px] -md:w-[145.5px]"
-                src="/assets/logos/itc-h-w.svg"
+                src={assetUrl('/assets/logos/itc-h-w.svg')}
                 alt="iTrustCapital Logo"
                 width="540"
                 height="79"
@@ -211,7 +212,7 @@ export default function SiteNav() {
               <a href="/" className="flex items-center">
                 <img
                   className="block w-[145.5px]"
-                  src="/assets/logos/itc-h-w.svg"
+                  src={assetUrl('/assets/logos/itc-h-w.svg')}
                   alt="iTrustCapital Logo"
                   width="540"
                   height="79"
