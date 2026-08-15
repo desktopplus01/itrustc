@@ -40,6 +40,19 @@ body {
   will-change: transform;
 }
 
+/* the site's `hover:opacity-100` lives in a stylesheet we don't ship; the
+   featured list items carry `opacity-50 hover:opacity-100 transition-all` */
+.featured-marquee li:hover {
+  opacity: 1;
+}
+
+/* the site's preflight `img{max-width:100%}` collapses attribute-sized logos
+   inside this w-max flex track (0-wide containing block) — lift the cap so
+   the width/height attributes (or inline styles) apply */
+.featured-marquee img {
+  max-width: none;
+}
+
 @keyframes featured-marquee-scroll {
   from {
     transform: translateX(0);

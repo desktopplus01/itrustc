@@ -6,14 +6,13 @@ import parse from 'html-react-parser'
  * inline SVGs, entities) while giving us React rendering.
  */
 
-// GitHub Pages serves this project under /<repo>/ (see vite.config.js). The
-// section HTML strings embed absolute `/assets/...` paths that Vite can't
-// rewrite at build time (they're runtime strings, not imports), so we prefix
-// them with the deployment base here. In dev the base is the dev server
-// root, so nothing changes.
-const assetBase = import.meta.env.DEV
-  ? ''
-  : (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
+// GitHub Pages serves this project under /<repo>/ (see vite.config.js), and
+// the dev server applies the same base. The section HTML strings embed
+// absolute `/assets/...` paths that Vite can't rewrite (they're runtime
+// strings, not imports), so we prefix them with the configured base
+// (`import.meta.env.BASE_URL`) here — in dev and prod alike. With `base: "/"`
+// the prefix is empty and nothing changes.
+const assetBase = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
 
 /** Prefix a runtime asset path (e.g. `/assets/logos/itc-h-w.svg`) with the deployment base. */
 export const assetUrl = (path) => (assetBase ? assetBase + path : path)
