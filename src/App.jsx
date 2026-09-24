@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { AuthProvider, useAuth } from "./lib/AuthContext";
+import { ThemeProvider, useTheme } from "./lib/ThemeContext";
 import MarketTicker from "./replica/MarketTicker.jsx";
 import SiteNav from "./replica/SiteNav.jsx";
 import HeroSection from "./replica/HeroSection.jsx";
@@ -9,6 +12,15 @@ import Faq from "./replica/Faq.jsx";
 import ReplicaSection from "./replica/render.jsx";
 import sections from "./replica/sections.json";
 import useReveal from "./replica/useReveal.js";
+import AuthLanding from "./auth/AuthLanding.jsx";
+import AuthLogin from "./auth/AuthLogin.jsx";
+import AuthForgotPassword from "./auth/AuthForgotPassword.jsx";
+import AuthSignup from "./auth/AuthSignup.jsx";
+import AuthPending from "./auth/AuthPending.jsx";
+import AuthVerifyOTP from "./auth/AuthVerifyOTP.jsx";
+import Legal from "./auth/Legal.jsx";
+import Dashboard from "./dashboard/Dashboard.jsx";
+import AdminDashboard from "./admin/AdminDashboard.jsx";
 
 /**
  * Pixel-faithful replica of https://www.itrustcapital.com — every section is
@@ -16,24 +28,18 @@ import useReveal from "./replica/useReveal.js";
  * styled by its real compiled stylesheets (src/replica/*.css) and rendered
  * with html-react-parser. Sections are ordered exactly like the live page.
  */
-export default function App() {
+function SiteHome() {
   useReveal();
 
-  // Demo-mode link handling: action buttons/links must not redirect anywhere
-  // for now — clicking one just refreshes the page. In-page section links
-  // (e.g. `/#faq-home`) still scroll, and buttons (accordions, menus) are
-  // untouched; only anchor navigation is intercepted.
   useEffect(() => {
     const onClick = (e) => {
-      // respect modified clicks (new tab / download intent) and non-left buttons
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
       const a = e.target.closest("a")
       if (!a) return
       const href = a.getAttribute("href")
       if (!href) return
-      // non-navigation targets: in-page fragment, tel:, mailto:
       if (href.startsWith("#") || href.startsWith("tel:") || href.startsWith("mailto:")) return
-      // scroll to a same-page section target instead of navigating
+      if (href.startsWith("/auth") || href.startsWith("/dashboard") || href.startsWith("/admin")) return
       const m = href.match(/^[^#]*#(.+)$/)
       if (m) {
         const el = document.getElementById(m[1])
@@ -43,8 +49,6 @@ export default function App() {
           return
         }
       }
-      // anything that would leave the current page (external site or a route
-      // on this site): don't navigate — just refresh the page
       e.preventDefault()
       window.location.reload()
     }
@@ -95,5 +99,70 @@ export default function App() {
       {/* footer */}
       <ReplicaSection html={sections.footer} />
     </div>
+  );
+}
+
+function ProtectedRoute({ children, requireApproved = false, requireAdmin = false }) {
+  const { user, loading, isApproved, isAdmin } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0f1e] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="auth-spinner" />
+          <div className="text-white/40 text-sm">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  if (requireAdmin && !isAdmin) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (requireApproved && !isApproved && !isAdmin) {
+    return <Navigate to="/auth/pending" replace />;
+  }
+
+  return children;
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <Routes>
+          <Route path="/auth" element={<AuthLanding />} />
+          <Route path="/auth/login" element={<AuthLogin />} />
+          <Route path="/auth/forgot" element={<AuthForgotPassword />} />
+          <Route path="/auth/signup" element={<AuthSignup />} />
+          <Route path="/auth/pending" element={<AuthPending />} />
+          <Route path="/auth/verify-otp" element={<AuthVerifyOTP />} />
+          <Route path="/terms" element={<Legal />} />
+          <Route path="/privacy" element={<Legal />} />
+          <Route
+            path="/dashboard/*"
+            element={
+              <ProtectedRoute requireApproved>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/*" element={<SiteHome />} />
+        </Routes>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

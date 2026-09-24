@@ -1,0 +1,609 @@
+/* ── Market Page ── */
+.market-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Top Section ── */
+.market-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.market-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Coin Selector ── */
+.market-coin-selector {
+  position: relative;
+}
+
+.market-coin-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--m-input);
+  border: 1px solid var(--m-border-strong);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.market-coin-btn:hover {
+  background: var(--m-border);
+}
+
+.market-coin-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.market-coin-pair {
+  font-size: 15px;
+}
+
+.market-pair-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 240px;
+  background: #1a2030;
+  border: 1px solid var(--m-border-strong);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  z-index: 50;
+  padding: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.market-pair-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.market-pair-option:hover {
+  background: var(--m-input);
+}
+
+.market-pair-option.active {
+  background: rgba(163,230,53,0.1);
+}
+
+.market-pair-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.market-pair-fullname {
+  font-size: 11px;
+  color: var(--m-text-45);
+}
+
+/* ── Price Display ── */
+.market-price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.market-current-price {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.market-price-change {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.market-price-change.positive {
+  color: var(--m-accent-text);
+  background: rgba(163,230,53,0.1);
+}
+
+.market-price-change.negative {
+  color: var(--m-danger-text);
+  background: rgba(239,68,68,0.1);
+}
+
+/* ── Chart Controls ── */
+.market-chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.market-timeframes {
+  display: flex;
+  gap: 4px;
+  background: var(--m-panel-soft);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.market-tf-btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--m-text-45);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.market-tf-btn:hover {
+  color: var(--m-text-70);
+}
+
+.market-tf-btn.active {
+  background: var(--m-border);
+  color: #fff;
+}
+
+.market-chart-types {
+  display: flex;
+  gap: 4px;
+}
+
+.market-type-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: var(--m-panel-soft);
+  color: var(--m-text-45);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.market-type-btn:hover {
+  background: var(--m-border);
+  color: var(--m-text-70);
+}
+
+.market-type-btn.active {
+  background: var(--m-accent-soft);
+  color: var(--m-accent-text);
+}
+
+/* ── Body Layout ── */
+.market-body {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── Chart Area ── */
+.market-chart-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.market-chart-wrapper {
+  background: var(--m-panel);
+  border: 1px solid var(--m-border);
+  border-radius: 16px;
+  padding: 16px;
+  min-height: 340px;
+  position: relative;
+}
+
+.market-chart-loading {
+  width: 100%;
+  height: 340px;
+}
+
+/* ── Exchange Table ── */
+.market-exchanges {
+  background: var(--m-panel);
+  border: 1px solid var(--m-border);
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+
+.market-exchange-header {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 0.8fr 1fr;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  font-weight: 500;
+}
+
+.market-exchange-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 0.8fr 1fr;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+}
+
+.market-exchange-row:last-child {
+  border-bottom: none;
+}
+
+.market-exchange-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.market-exchange-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.market-exchange-price {
+  font-weight: 600;
+  color: #fff;
+}
+
+.market-exchange-amount {
+  color: rgba(255,255,255,0.6);
+}
+
+.market-diff-badge {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.market-exchange-volume {
+  font-weight: 500;
+}
+
+/* ── Trade Panel ── */
+.market-trade-panel {
+  background: var(--m-panel);
+  border: 1px solid var(--m-border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Trade Tabs ── */
+.market-trade-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.market-trade-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--m-text-45);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.market-trade-tab.active.buy {
+  background: var(--m-accent-soft);
+  color: var(--m-accent-text);
+}
+
+.market-trade-tab.active.sell {
+  background: rgba(239,68,68,0.12);
+  color: var(--m-danger-text);
+}
+
+.market-trade-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.market-trade-icon-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: var(--m-input);
+  color: var(--m-text-45);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.market-trade-icon-btn:hover {
+  background: var(--m-border);
+  color: var(--m-text-70);
+}
+
+/* ── Trade Inputs ── */
+.market-trade-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.market-trade-input-card {
+  background: var(--m-panel-soft);
+  border: 1px solid var(--m-border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.market-trade-input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.market-trade-coin {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.market-trade-coin-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.market-trade-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+}
+
+.market-trade-input {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.market-trade-input::placeholder {
+  color: rgba(255,255,255,0.15);
+}
+
+.market-trade-input::-webkit-outer-spin-button,
+.market-trade-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.market-trade-balance {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+}
+
+.market-trade-balance span {
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
+}
+
+/* ── Swap Button ── */
+.market-trade-swap {
+  display: flex;
+  justify-content: center;
+  margin: -8px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.market-trade-swap-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1f2937;
+  border: 3px solid var(--m-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--m-text-45);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.market-trade-swap-btn:hover {
+  color: #fff;
+  background: #374151;
+}
+
+/* ── Submit Button ── */
+.market-trade-submit {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.market-trade-submit.buy {
+  background: linear-gradient(135deg, #a3e635, #65a30d);
+  color: #000;
+}
+
+.market-trade-submit.sell {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+}
+
+.market-trade-submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ── Connect Wallet ── */
+.market-connect-wallet {
+  width: 100%;
+  padding: 12px;
+  background: var(--m-panel-soft);
+  border: 1px solid var(--m-border-strong);
+  border-radius: 12px;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.market-connect-wallet:hover {
+  background: var(--m-border);
+  color: rgba(255,255,255,0.8);
+}
+
+/* ── Balance Card ── */
+.market-balance-card {
+  background: var(--m-panel-soft);
+  border: 1px solid var(--m-border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.market-balance-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 6px;
+}
+
+.market-balance-amount {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.market-balance-change {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.market-balance-change.positive {
+  color: var(--m-accent-text);
+  background: var(--m-accent-soft);
+}
+
+.market-balance-change.negative {
+  color: var(--m-danger-text);
+  background: rgba(239,68,68,0.12);
+}
+
+.market-balance-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.market-balance-details label {
+  display: block;
+  font-size: 11px;
+  color: var(--m-text-30);
+  margin-bottom: 2px;
+}
+
+.market-balance-details span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--m-text-70);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .market-body {
+    grid-template-columns: 1fr;
+  }
+  .market-trade-panel {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .market-current-price {
+    font-size: 28px;
+  }
+  .market-exchange-header,
+  .market-exchange-row {
+    grid-template-columns: 1.2fr 1fr 0.8fr;
+  }
+  .market-exchange-header span:nth-child(4),
+  .market-exchange-header span:nth-child(5),
+  .market-exchange-row > *:nth-child(4),
+  .market-exchange-row > *:nth-child(5) {
+    display: none;
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { assetUrl } from './render.jsx'
 
 const menus = {
@@ -167,23 +168,23 @@ export default function SiteNav() {
 
         <ul className="flex items-center grow-0 p-0 m-0 list-none gap-x-4">
           <li className="relative grow-0 -xxs:hidden">
-            <a
-              className="flex flex-row grow-0 select-none items-center text-white text-sm hover:text-itcGreen"
-              href="https://app.itrustcapital.com/login"
+            <Link
+              to="/auth"
+              className="flex flex-row grow-0 select-none items-center text-white text-sm hover:text-itcGreen no-underline"
             >
               Log In
-            </a>
+            </Link>
           </li>
           <li className="relative grow-0 -xxs:hidden">
-            <a
-              className="inline-block bg-itcGreen text-white py-1 px-5 rounded-full shadow-md -sm:px-3 font-medium hover:bg-white hover:text-itcGreen flex flex-row grow-0 select-none items-center text-white text-sm hover:text-itcGreen"
-              href="https://app.itrustcapital.com/signUp"
+            <Link
+              to="/auth"
+              className="inline-block bg-itcGreen text-white py-1 px-5 rounded-full shadow-md -sm:px-3 font-medium hover:bg-white hover:text-itcGreen flex flex-row grow-0 select-none items-center text-white text-sm hover:text-itcGreen no-underline"
             >
               <span className="not-sr-only md:hidden" aria-hidden="true">
                 Sign Up
               </span>
               <span className="md:block -md:hidden">Open Account</span>
-            </a>
+            </Link>
           </li>
           <li className="relative grow-0 lg:hidden flex items-center">
             <button
@@ -284,20 +285,20 @@ export default function SiteNav() {
             </div>
 
             <div className="mt-auto flex flex-col gap-3 pt-8">
-              <a
-                href="https://app.itrustcapital.com/login"
+              <Link
+                to="/auth"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-full border-2 border-white/25 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:border-white"
+                className="rounded-full border-2 border-white/25 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:border-white no-underline"
               >
                 Log In
-              </a>
-              <a
-                href="https://app.itrustcapital.com/signUp"
+              </Link>
+              <Link
+                to="/auth"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-full bg-itcGreen px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-white hover:text-itcGreen"
+                className="rounded-full bg-itcGreen px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-white hover:text-itcGreen no-underline"
               >
                 Open Account
-              </a>
+              </Link>
             </div>
           </div>
         </div>

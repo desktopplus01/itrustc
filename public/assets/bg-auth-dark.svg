@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMinYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0%" stop-color="#060a16"/>
+      <stop offset="100%" stop-color="#0c1830"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- ════ LEFT: Swooping light curves ════ -->
+  <ellipse cx="300" cy="500" rx="380" ry="450" fill="#0e1e3a" opacity="0.4"/>
+
+  <!-- Primary arcs -->
+  <path d="M -40 60 C 140 40, 320 180, 380 340 S 460 620, 340 860 S 120 1060, 70 1200"
+        stroke="#2e60a0" stroke-width="4.5" fill="none" opacity="0.85" stroke-linecap="round"/>
+  <path d="M -20 80 C 160 60, 340 200, 400 360 S 480 640, 360 880 S 140 1080, 90 1220"
+        stroke="#225090" stroke-width="3.5" fill="none" opacity="0.65" stroke-linecap="round"/>
+
+  <path d="M -60 200 C 100 150, 280 290, 340 430 S 400 660, 290 860 S 80 1020, 20 1160"
+        stroke="#3468a8" stroke-width="4" fill="none" opacity="0.75" stroke-linecap="round"/>
+  <path d="M -40 220 C 120 170, 300 310, 360 450 S 420 680, 310 880 S 100 1040, 40 1180"
+        stroke="#265098" stroke-width="3" fill="none" opacity="0.55" stroke-linecap="round"/>
+
+  <path d="M -10 330 C 160 270, 310 370, 360 490 S 410 680, 310 880"
+        stroke="#2c5898" stroke-width="3.5" fill="none" opacity="0.65" stroke-linecap="round"/>
+  <path d="M 10 350 C 180 290, 330 390, 380 510 S 430 700, 330 900"
+        stroke="#204c88" stroke-width="2.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+
+  <path d="M 30 430 C 170 370, 290 450, 340 560 S 390 720, 300 890"
+        stroke="#1e4480" stroke-width="2.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+
+  <path d="M -20 140 C 140 110, 310 240, 370 380 S 440 640, 330 870"
+        stroke="#3a70b0" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+
+  <!-- Broad glow strokes -->
+  <path d="M -80 100 C 140 60, 320 210, 380 370 S 460 650, 330 890 S 100 1100, 50 1240"
+        stroke="#183060" stroke-width="18" fill="none" opacity="0.18" stroke-linecap="round"/>
+  <path d="M -40 240 C 130 180, 300 330, 360 460 S 420 680, 310 880"
+        stroke="#142858" stroke-width="14" fill="none" opacity="0.12" stroke-linecap="round"/>
+
+  <!-- ════ RIGHT: Large 3D polyhedra (positioned more centrally) ════ -->
+
+  <!-- ── Main polyhedron (large, prominent) ── -->
+  <!-- Top face - brightest -->
+  <polygon points="1120,80 1340,20 1520,110 1480,280 1310,310 1150,200"
+           fill="#283e5c" opacity="1"/>
+  <!-- Left face -->
+  <polygon points="1150,200 1310,310 1290,490 1140,460 1080,330"
+           fill="#1e3248" opacity="0.95"/>
+  <!-- Right face -->
+  <polygon points="1310,310 1480,280 1530,450 1440,560 1290,490"
+           fill="#203650" opacity="0.95"/>
+  <!-- Bottom face -->
+  <polygon points="1140,460 1290,490 1440,560 1400,710 1230,680 1080,570"
+           fill="#142638" opacity="0.9"/>
+  <!-- Top highlight -->
+  <polygon points="1340,20 1520,40 1520,110 1480,280 1310,310 1150,200 1120,80 1210,10"
+           fill="#2e4668" opacity="0.55"/>
+  <polygon points="1340,20 1440,50 1480,130 1370,120"
+           fill="#365070" opacity="0.5"/>
+  <polygon points="1120,80 1210,10 1340,20 1290,130 1180,140"
+           fill="#26405c" opacity="0.45"/>
+
+  <!-- ── Second polyhedron (lower-right) ── -->
+  <polygon points="1300,540 1460,500 1600,580 1550,740 1400,760 1280,670"
+           fill="#1a2c40" opacity="0.9"/>
+  <polygon points="1460,500 1600,460 1680,550 1640,700 1550,740 1600,580"
+           fill="#162838" opacity="0.85"/>
+  <polygon points="1280,670 1400,760 1550,740 1560,880 1380,900 1240,800"
+           fill="#101e2c" opacity="0.8"/>
+  <polygon points="1460,500 1600,460 1600,580 1460,570"
+           fill="#203450" opacity="0.55"/>
+  <polygon points="1600,460 1680,420 1760,510 1680,550 1600,500"
+           fill="#1a2e44" opacity="0.5"/>
+
+  <!-- ── Back mass (upper-right) ── -->
+  <polygon points="1300,0 1680,0 1680,320 1570,390 1430,310 1340,190"
+           fill="#121e2c" opacity="0.95"/>
+  <polygon points="1340,190 1430,310 1570,390 1540,540 1410,520 1330,420"
+           fill="#162636" opacity="0.9"/>
+  <polygon points="1540,540 1570,390 1680,440 1680,720 1600,690"
+           fill="#101c2a" opacity="0.85"/>
+
+  <!-- ── Small accent shapes ── -->
+  <polygon points="1130,360 1240,310 1320,390 1280,510 1180,490"
+           fill="#1c3048" opacity="0.65"/>
+  <polygon points="1280,510 1320,390 1380,420 1360,540 1300,540"
+           fill="#203850" opacity="0.55"/>
+
+  <!-- ── Far-right edge shapes ── -->
+  <polygon points="1600,0 1920,0 1920,350 1570,390"
+           fill="#0e1a24" opacity="0.95"/>
+  <polygon points="1920,350 1920,780 1680,720 1680,550 1680,440"
+           fill="#101e28" opacity="0.9"/>
+  <polygon points="1920,780 1920,1080 1300,1080 1240,920 1380,900 1560,880 1560,740 1600,690 1680,720"
+           fill="#0a1420" opacity="0.8"/>
+
+  <!-- Bottom fill -->
+  <polygon points="900,940 1240,900 1560,920 1920,990 1920,1080 800,1080"
+           fill="#080e18" opacity="0.7"/>
+
+  <!-- ════ Edge highlights ════ -->
+  <line x1="1310" y1="310" x2="1290" y2="490" stroke="#283e5c" stroke-width="1.2" opacity="0.4"/>
+  <line x1="1480" y1="280" x2="1530" y2="450" stroke="#203650" stroke-width="1.2" opacity="0.35"/>
+  <line x1="1150" y1="200" x2="1080" y2="330" stroke="#1e3248" stroke-width="1.2" opacity="0.35"/>
+  <line x1="1140" y1="460" x2="1080" y2="570" stroke="#142638" stroke-width="1" opacity="0.3"/>
+  <line x1="1290" y1="490" x2="1440" y2="560" stroke="#203650" stroke-width="1" opacity="0.3"/>
+  <line x1="1460" y1="500" x2="1600" y2="580" stroke="#1a2c40" stroke-width="1" opacity="0.3"/>
+  <line x1="1340" y1="20" x2="1520" y2="110" stroke="#2e4668" stroke-width="1" opacity="0.35"/>
+</svg>

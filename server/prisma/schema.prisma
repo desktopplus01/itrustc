@@ -1,0 +1,282 @@
+generator client {
+  provider = "prisma-client-js"
+}datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Neon: point DATABASE_URL at the *pooled* connection string (…-pooler…)
+  // and DIRECT_URL at the direct one — migrations/push must bypass the pooler.
+  // Local Postgres: set DIRECT_URL to the same value as DATABASE_URL.
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  BUY
+  SELL
+  BONUS
+  INVEST
+  RETURN
+  CARD_FUND
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum RequestType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  CARD_FUND
+  CARD_TO_WALLET
+  CARD_SEND
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum InvestmentStatus {
+  ACTIVE
+  MATURED
+  CLAIMED
+  CANCELLED
+}
+
+model User {
+  id             String      @id @default(cuid())
+  email          String      @unique
+  passwordHash   String
+  firstName      String
+  lastName       String
+  phone          String?
+  role           UserRole    @default(USER)
+  status         UserStatus  @default(PENDING)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  accounts       Account[]
+  goals          Goal[]
+  notifications  Notification[]
+  cards          Card[]
+  requests       Request[]
+  investments    Investment[]
+  reviewedBy     String?
+  reviewedAt     DateTime?
+  resetToken     String?
+  resetTokenExpiry DateTime?
+  twoFactorEnabled Boolean  @default(true)
+  plan           String     @default("Starter")
+
+  // Welcome bonus: locked until the user has funded $1,000 of their own money.
+  bonusBalance   Decimal  @default(0) @db.Decimal(18, 2)
+  fundedAmount   Decimal  @default(0) @db.Decimal(18, 2)
+  bonusUnlocked  Boolean  @default(false)
+
+  @@map("users")
+}
+
+model Account {
+  id        String   @id @default(cuid())
+  userId    String
+  label     String   @default("Main Wallet")
+  balance   Decimal  @default(0) @db.Decimal(18, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("accounts")
+}
+
+model Transaction {
+  id        String            @id @default(cuid())
+  accountId String
+  type      TransactionType
+  amount    Decimal           @db.Decimal(18, 2)
+  asset     String?
+  qty       Decimal?          @db.Decimal(24, 8)
+  price     Decimal?          @db.Decimal(18, 2)
+  status    TransactionStatus @default(COMPLETED)
+  createdAt DateTime          @default(now())
+  account   Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, createdAt])
+  @@map("transactions")
+}
+
+/// Every money movement that needs the admin's sign-off lives here.
+/// Deposits, withdrawals, wallet-to-wallet sends and all card movements are
+/// created as PENDING and only touch balances once an admin approves them
+/// (withdrawals/transfers hold the funds at request time and are refunded on
+/// rejection).
+model Request {
+  id             String        @id @default(cuid())
+  userId         String
+  type           RequestType
+  amount         Decimal       @db.Decimal(18, 2)
+  status         RequestStatus @default(PENDING)
+  method         String?
+  recipientId    String?
+  recipientEmail String?
+  note           String?
+  cardId         String?
+  address        String?
+  network        String?
+  txHash         String?
+  reviewNote     String?
+  reviewedBy     String?
+  reviewedAt     DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card           Card?         @relation(fields: [cardId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+  @@index([type, status])
+  @@map("requests")
+}
+
+model Goal {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  targetAmount Decimal @db.Decimal(18, 2)
+  currentAmount Decimal @default(0) @db.Decimal(18, 2)
+  deadline    DateTime?
+  icon        String?  @default("🎯")
+  color       String?  @default("#588F2B")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("goals")
+}
+
+model Card {
+  id         String   @id @default(cuid())
+  userId     String
+  label      String   @default("Virtual Card")
+  brand      String   @default("VISA")
+  number     String
+  last4      String
+  expiry     String
+  cvv        String
+  frozen     Boolean  @default(false)
+  balance    Decimal  @default(0) @db.Decimal(18, 2)
+  spendLimit Decimal  @default(5000) @db.Decimal(18, 2)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  requests   Request[]
+
+  @@map("cards")
+}
+
+/// Investment plans curated by the admin. Returns are fixed percentages paid
+/// over the plan's term — every figure shown to users derives from these rows.
+model InvestmentPlan {
+  id            String        @id @default(cuid())
+  name          String
+  description   String?
+  minAmount     Decimal       @db.Decimal(18, 2)
+  maxAmount     Decimal?      @db.Decimal(18, 2)
+  durationDays  Int
+  returnPercent Decimal       @db.Decimal(8, 2)
+  active        Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  investments   Investment[]
+
+  @@map("investment_plans")
+}
+
+model Investment {
+  id              String           @id @default(cuid())
+  userId          String
+  planId          String
+  amount          Decimal          @db.Decimal(18, 2)
+  expectedReturn  Decimal          @db.Decimal(18, 2)
+  accrued         Decimal          @default(0) @db.Decimal(18, 2)
+  lastAccrualAt   DateTime?
+  milestone       Int              @default(0)
+  status          InvestmentStatus @default(ACTIVE)
+  startsAt        DateTime         @default(now())
+  maturesAt       DateTime
+  claimedAt       DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan            InvestmentPlan   @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@index([userId, status])
+  @@map("investments")
+}
+
+/// Crypto deposit addresses configured by the admin. Users fund their wallet
+/// (and their cards) by transferring crypto to one of these addresses and
+/// submitting the transaction hash for approval.
+model DepositAddress {
+  id        String   @id @default(cuid())
+  currency  String
+  network   String
+  address   String
+  label     String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("deposit_addresses")
+}
+
+model Otp {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  type      String   @default("SIGNUP")
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("otps")
+}
+
+enum NotificationType {
+  SYSTEM
+  ACCOUNT
+  TRANSACTION
+  SECURITY
+  PROMOTION
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      NotificationType @default(SYSTEM)
+  read      Boolean          @default(false)
+  link      String?
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
